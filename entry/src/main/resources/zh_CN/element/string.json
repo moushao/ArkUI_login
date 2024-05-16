@@ -1,0 +1,68 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "模块描述"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "login_page_label",
+      "value": "登录界面"
+    },
+    {
+      "name": "login_more_service",
+      "value": "登录账号以使用更多服务"
+    },
+    {
+      "name": "account",
+      "value": "账户"
+    },
+    {
+      "name": "forget",
+      "value": "忘记密码"
+    },
+    {
+      "name": "login",
+      "value": "登录"
+    },
+    {
+      "name": "register_account",
+      "value": "注册账号"
+    },
+    {
+      "name": "login_verify_with_code",
+      "value": "短信验证码登录"
+    },
+    {
+      "name": "work_target_title",
+      "value": "工作目标"
+    },
+    {
+      "name": "work_target_first_target",
+      "value": "第一季度运营目标"
+    },
+    {
+      "name": "work_target_first_content",
+      "value": "实现用户量与用户活跃度提升"
+    },
+    {
+      "name": "work_target_progess",
+      "value": "整体进度"
+    },
+    {
+      "name": "work_target_update_time",
+      "value": "更新时间"
+    },
+    {
+      "name": "work_target_sub",
+      "value": "子目标"
+    }
+  ]
+}
