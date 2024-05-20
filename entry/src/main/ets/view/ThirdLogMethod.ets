@@ -1,3 +1,4 @@
+import ConstantSize from '../constants/ConstansSize'
 @Component
 export default struct ThirdLogMethod {
   build() {
@@ -20,8 +21,8 @@ export default struct ThirdLogMethod {
           .backgroundColor(0x317aff)
           .fontSize(10)
           .padding(0)
-      }.width("100%").justifyContent(FlexAlign.SpaceEvenly).margin({top:10})
-    }.width("100%")
+      }.width(ConstantSize.FULL).justifyContent(FlexAlign.SpaceEvenly).margin({top:10})
+    }.width(ConstantSize.FULL)
     .padding({top:10, bottom:20})
   }
 }
@@ -36,6 +37,6 @@ struct ThirdLogMethodPreview {
   build() {
     Row() {
       ThirdLogMethod()
-    }.width("100%")
+    }.width(ConstantSize.FULL)
   }
 }

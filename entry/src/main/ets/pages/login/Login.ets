@@ -1,8 +1,8 @@
 import router from '@ohos.router'
-import ConstantColor from '../constants/ConstansColors'
-import ConstantSize from '../constants/ConstansSize'
-import InputArea from './InputArea'
-import ThirdLogMethod from './ThirdLogMethod'
+import ConstantColor from '../../constants/ConstansColors'
+import ConstantSize from '../../constants/ConstansSize'
+import InputArea from '../../view/InputArea'
+import ThirdLogMethod from '../../view/ThirdLogMethod'
 
 @Entry
 @Component

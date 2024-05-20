@@ -1,3 +1,4 @@
+import ConstantSize from '../constants/ConstansSize'
 @Component
 export default struct InputArea {
   @Prop title: string
@@ -23,14 +24,14 @@ export default struct InputArea {
           .layoutWeight(1)
           .type(this.isSecret ? InputType.Password : InputType.Normal)
       }
-      .width("100%")
+      .width(ConstantSize.FULL)
       .padding({ top: 5, bottom: 5 })
 
       Line()
-        .width("100%")
+        .width(ConstantSize.FULL)
         .height(1)
         .backgroundColor($r('app.color.line_color'))
-    }.width("100%")
+    }.width(ConstantSize.FULL)
   }
 }
 
@@ -48,6 +49,6 @@ struct InputAreaPreview {
         content: this.account,
         isSecret: true
       })
-    }.width("100%")
+    }.width(ConstantSize.FULL)
   }
 }

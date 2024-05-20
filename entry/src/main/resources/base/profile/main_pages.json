@@ -1,6 +1,6 @@
 {
   "src": [
-    "pages/Login",
+    "pages/login/Login",
     "pages/target/WorkTarget"
   ]
 }

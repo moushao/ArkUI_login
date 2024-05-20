@@ -1,9 +1,14 @@
-class SubTargetModel {
-  content: string;
-  icon: Resource;
 
-  constructor(content: string, icon: Resource) {
-    this.content = content;
-    this.icon = icon;
+@Observed
+export class SubTargetModel {
+  taskName: string
+  updateData: string
+  progress: number
+
+  constructor(taskName: string, updateData: string, progress: number) {
+    this.taskName = taskName;
+    this.updateData = updateData;
+    this.progress = progress;
   }
 }
+

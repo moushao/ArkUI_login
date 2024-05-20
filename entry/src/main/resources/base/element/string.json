@@ -63,6 +63,38 @@
     {
       "name": "work_target_sub",
       "value": "子目标"
+    },
+    {
+      "name": "cancel",
+      "value": "取消"
+    },
+    {
+      "name": "confirm",
+      "value": "确认"
+    },
+    {
+      "name": "add_sub_task",
+      "value": "添加子目标"
+    },
+    {
+      "name": "delete_button",
+      "value": "删除"
+    },
+    {
+      "name": "edit_button",
+      "value": "编辑"
+    },
+    {
+      "name": "select_all_button",
+      "value": "全选"
+    },
+    {
+      "name": "cannot_input_empty",
+      "value": "任务名称不能为空！"
+    },
+    {
+      "name": "input_target_name",
+      "value": "请输入子目标名称"
     }
   ]
 }
