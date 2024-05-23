@@ -51,6 +51,8 @@ export default struct ProgressEditPanel {
     }
     .width(ConstantSize.FULL)
     .justifyContent(FlexAlign.End)
+    .transition({ scale: { x: 1, y: 0 } })
+    .offset({ y: -10 })
   }
 }
 

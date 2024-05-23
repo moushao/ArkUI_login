@@ -1,28 +1,39 @@
 import ConstantColor from '../constants/ConstansColors'
+import ConstantCommon from '../constants/ConstansCommon'
 import ConstantSize from '../constants/ConstansSize'
 import { SubTargetModel } from '../model/SubTargetModel'
+import getCurrentTime from '../utils/DateUtil'
 import ProgressEditPanel from './ProgressEditPanel'
 
 @Component
-@Preview
 export default struct TargetItem {
-  private target?: SubTargetModel
-  @State isExpanded: boolean = false
+  @State target: SubTargetModel = null
   @State latestProgress: number = 0
   @State sliderMode: number = -1
   @State index: number = 0;
+  @Link @Watch("clickIndexChanged") clickIndex: number
+  @State isExpanded: boolean = this.index === this.clickIndex
+
+  aboutToAppear() {
+    this.latestProgress = this.target.progress
+  }
+
+  clickIndexChanged() {
+    console.log(`clickIndexChanged: ${this.index === this.clickIndex}`)
+    this.isExpanded = this.index === this.clickIndex
+  }
 
   build() {
     Column() {
       Row() {
-        Text(this.target?.taskName).padding(10)
+        Text(this.target.taskName).padding(10)
         Blank()
         Column() {
-          Text(`${this.target?.progress}%`)
+          Text(`${this.target.progress}%`)
             .padding({ right: 10, top: 10 })
             .fontSize($r('app.float.list_font'))
             .fontColor($r('app.color.title_black_color'))
-          Text(`更新时间:${this.target?.updateData}`)
+          Text(`更新时间:${this.target.updateData}`)
             .fontSize(13)
             .padding({ right: 10, top: 2, bottom: 10 })
             .fontColor(ConstantColor.GREY_DARK)
@@ -36,19 +47,50 @@ export default struct TargetItem {
           onCancel: () => this.isExpanded = false,
           onClickOK: (progress: number): void => {
             this.isExpanded = false;
+            this.latestProgress = progress
+            this.target.progress = progress
+            this.target.updateData = getCurrentTime()
           },
           sliderMode: $sliderMode
         })
-          .width(ConstantSize.FULL)
-          .transition({ scale: { x: 1, y: 0 } })
       }
     }
     .width(ConstantSize.FULL)
     .backgroundColor(Color.White)
     .borderRadius(8)
     .onClick(() => {
-      console.log("onClicked")
+      console.log("Sub task was clicked")
       this.isExpanded = !this.isExpanded
+      this.clickIndex = this.index
+    })
+  }
+}
+
+@Preview
+@Component
+struct TargetItemNotExpand {
+  @State clickIndex: number = ConstantCommon.DEFAULT_CLICKED_INDEX
+
+  build() {
+    TargetItem({
+      target: new SubTargetModel("早起晨练", "2023/02/09", 40),
+      index: 0,
+      clickIndex: $clickIndex
+    })
+  }
+}
+
+
+@Preview
+@Component
+struct TargetItemExpanded {
+  @State clickIndex: number = 0
+
+  build() {
+    TargetItem({
+      target: new SubTargetModel("早起晨练", "2023/02/09", 70),
+      index: 0,
+      clickIndex: $clickIndex
     })
   }
 }

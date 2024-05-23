@@ -4,17 +4,17 @@ import TargetItem from '../../view/TargetItem'
 import FooterButtonArea from '../../view/FooterButtonArea'
 import TaskAddDialog from '../../dialog/TaskAddDialog'
 import WorkTargetContent from '../../view/WorkTargeContent'
-import { SubTargetModel } from '../../model/SubTargetModel'
+import { SubTargetModel, SubTargetModelArray } from '../../model/SubTargetModel'
 import { ViewModel } from '../../viewmodel/ViewModel'
+import ConstantCommon from '../../constants/ConstansCommon'
 
 @Component
 @Preview
 @Entry
 struct WorkTarget {
-  @State clickIndex: number = -1
-  @State viewModel?: ViewModel = new ViewModel()
-  // 此处observe有问题,无法更新ui,先这么搞
-  @State tasks: SubTargetModel[] = this.viewModel.getData()
+  @State clickIndex: number = ConstantCommon.DEFAULT_CLICKED_INDEX
+  @State viewModel: ViewModel = new ViewModel()
+  @State tasks: SubTargetModelArray = null
   dialogController: CustomDialogController = new CustomDialogController({
     builder: TaskAddDialog({
       cancel: (): void => {
@@ -23,12 +23,15 @@ struct WorkTarget {
       confirm: (taskName: string): void => {
         console.info(`add sub task ${taskName}`)
         this.viewModel.addTask(taskName)
-        this.tasks = this.viewModel.getData()
       }
     }),
     alignment: DialogAlignment.Bottom,
     offset: { dx: 0, dy: -20 }
   })
+
+  aboutToAppear() {
+    this.tasks = this.viewModel.getData()
+  }
 
   build() {
     Column() {
@@ -50,9 +53,10 @@ struct WorkTarget {
             TargetItem({
               target: item,
               index: index,
+              clickIndex: $clickIndex,
             })
           }
-        }, item => JSON.stringify(SubTargetModel))
+        })
       }
       .height(0)
       .width(ConstantSize.FULL)

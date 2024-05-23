@@ -1,16 +1,20 @@
 import promptAction from '@ohos.promptAction';
-import { SubTargetModel } from '../model/SubTargetModel';
+import { SubTargetModel, SubTargetModelArray } from '../model/SubTargetModel';
 import getCurrentTime from '../utils/DateUtil';
 import { TaskRepository } from './TaskRepository';
 
-@Observed
 export class ViewModel {
   private taskRepository = new TaskRepository()
 
   constructor() {
   }
-  public getData(): Array<SubTargetModel> {
+
+  public getData(): SubTargetModelArray {
     return this.taskRepository.getData();
+  }
+
+  public updateTask(index: number, task: SubTargetModel) {
+    this.taskRepository.updateTask(index, task)
   }
 
   public addTask(taskName: string) {

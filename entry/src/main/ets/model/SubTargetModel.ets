@@ -12,3 +12,7 @@ export class SubTargetModel {
   }
 }
 
+@Observed
+export  class SubTargetModelArray extends Array<SubTargetModel> {
+}
+

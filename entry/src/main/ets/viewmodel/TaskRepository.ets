@@ -1,11 +1,11 @@
-import { SubTargetModel } from '../model/SubTargetModel';
+import { SubTargetModel, SubTargetModelArray } from '../model/SubTargetModel';
 
 @Observed
 export class TaskRepository {
-  private tasks: SubTargetModel[] = [
+  public tasks: SubTargetModelArray = new SubTargetModelArray(
     new SubTargetModel("早起晨练", "2023/02/09", 40),
     new SubTargetModel("准备早餐", "2023/02/10", 70),
-  ]
+  )
 
   public getData(): SubTargetModel[] {
     return this.tasks;
@@ -15,8 +15,15 @@ export class TaskRepository {
   }
 
   public addTask(task: SubTargetModel) {
-    const newTasks = this.tasks.concat(task)
-    this.tasks = newTasks
+    this.tasks.push(task)
     console.log(`${this.tasks}`)
+  }
+
+  public updateTask(index: number, task: SubTargetModel) {
+    if (this.tasks.length < index) {
+      console.log(`invalid task length`)
+      return
+    }
+    this.tasks[index] = task
   }
 }
