@@ -1,8 +1,8 @@
 @Observed
 export class SelectedModel {
+  hasSelect: boolean
   isAllSelected: boolean
   unSelectedArray: UnSelectedArray = new UnSelectedArray()
-  hasSelect: boolean
 
   constructor(isAllSelected: boolean = false) {
     this.isAllSelected = isAllSelected
@@ -16,8 +16,12 @@ export class SelectedModel {
     this.hasSelect = isCheck
   }
 
-  public itemSelectChanged(index: number) {
-    this.unSelectedArray[index] = !this.unSelectedArray[index]
+  public itemSelectChanged(index: number,isChecked:boolean) {
+    this.unSelectedArray[index] = isChecked
+
+    this.unSelectedArray.forEach((item) => {
+    })
+
     let b = true
     this.unSelectedArray.forEach((item) => {
       if (!item) {
@@ -30,9 +34,10 @@ export class SelectedModel {
   }
 
   public itemIsChecked(index: number): boolean {
-    if (this.unSelectedArray[index] == undefined) {
+    if (this.unSelectedArray[index] === undefined) {
       this.unSelectedArray[index] = false
     }
+
     return this.unSelectedArray[index]
   }
 

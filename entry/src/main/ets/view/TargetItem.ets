@@ -14,15 +14,14 @@ export default struct TargetItem {
   @State sliderMode: number = -1
   @State index: number = 0;
   @Link @Watch("clickIndexChanged") clickIndex: number
-  @State isExpanded: boolean = this.index === this.clickIndex
+  @State isExpanded: boolean = false
   @ObjectLink selectedMode: SelectedModel
-
+  @Consume taskProgressChanged:boolean
   aboutToAppear() {
     this.latestProgress = this.target.progress
   }
 
   clickIndexChanged() {
-    console.log(`clickIndexChanged: ${this.index === this.clickIndex}`)
     this.isExpanded = this.index === this.clickIndex
   }
 
@@ -49,13 +48,14 @@ export default struct TargetItem {
           ProgressEditPanel({
             slidingProgress: this.latestProgress,
             onCancel: () => this.isExpanded = false,
+            sliderMode: $sliderMode,
             onClickOK: (progress: number): void => {
               this.isExpanded = false;
               this.latestProgress = progress
               this.target.progress = progress
               this.target.updateData = getCurrentTime()
-            },
-            sliderMode: $sliderMode
+              this.taskProgressChanged = !this.taskProgressChanged
+            }
           })
         }
       }
@@ -67,15 +67,14 @@ export default struct TargetItem {
           .selectedColor($r('app.color.main_blue'))
           .width(20)
           .margin({ right: 10 })
-          .onClick(() => {
-            this.selectedMode.itemSelectChanged(this.index)
+          .onChange((isChecked:boolean)=>{
+            this.selectedMode.itemSelectChanged(this.index,isChecked)
           })
       }
     }
     .backgroundColor(Color.White)
     .borderRadius(12)
     .onClick(() => {
-      console.log("Sub task was clicked")
       if (this.isEditMode) {
         return
       }

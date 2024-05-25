@@ -8,6 +8,7 @@ import { SubTargetModel, SubTargetModelArray } from '../../model/SubTargetModel'
 import { ViewModel } from '../../viewmodel/ViewModel'
 import ConstantCommon from '../../constants/ConstansCommon'
 import SubTargetTitle from '../../view/SubTargetTitle'
+import getCurrentTime from '../../utils/DateUtil'
 
 @Component
 @Preview
@@ -17,23 +18,36 @@ struct WorkTarget {
   @State viewModel: ViewModel = new ViewModel()
   @State tasks: SubTargetModelArray = null
   @Provide isEditMode: boolean = false
-  @State isHasSelected:boolean = false
+  @State isHasSelected: boolean = false
+  @State totalTasksNumber: number = 0;
+  @State completedTasksNumber: number = 0;
+  @Provide latestUpdateDate: string = ""
+  @Provide @Watch("onProgressChanged") taskProgressChanged: boolean = false
   dialogController: CustomDialogController = new CustomDialogController({
     builder: TaskAddDialog({
       cancel: (): void => {
         console.info('Callback when the first button is clicked')
       },
       confirm: (taskName: string): void => {
+        this.clickIndex = ConstantCommon.DEFAULT_CLICKED_INDEX
         this.viewModel.addTask(taskName)
+        this.onProgressChanged()
       }
     }),
     alignment: DialogAlignment.Bottom,
     offset: { dx: 0, dy: -20 }
   })
 
+  onProgressChanged() {
+    this.latestUpdateDate = getCurrentTime()
+    this.totalTasksNumber = this.viewModel.getAllTaskCount()
+    this.completedTasksNumber = this.viewModel.getCompleteTaskCount()
+  }
+
   aboutToAppear() {
     this.tasks = this.viewModel.getData()
     this.isHasSelected = this.viewModel.selectedMode.hasSelect
+    this.latestUpdateDate= this.tasks[this.tasks.length-1].updateData
   }
 
   build() {
@@ -44,7 +58,11 @@ struct WorkTarget {
         }
 
         ListItem() {
-          WorkTargetContent()
+          WorkTargetContent({
+            totalTasksNumber: this.totalTasksNumber,
+            completedTasksNumber: this.completedTasksNumber,
+          }
+          )
         }
 
         ListItem() {
@@ -76,6 +94,7 @@ struct WorkTarget {
           this.dialogController.open()
         },
         onDeleteClick: (): void => {
+          this.isEditMode = false
           this.viewModel.deleteTask()
         }
       })

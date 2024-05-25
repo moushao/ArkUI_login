@@ -27,7 +27,6 @@ export class TaskRepository {
   public addTask(task: SubTargetModel) {
     const newTasks = this.tasks.concat(task)
     this.tasks = newTasks
-    console.log(`${this.tasks}`)
   }
 }
 

@@ -7,9 +7,14 @@
  * 5:使用RelativeContainer必须指定宽高
  */
 import ConstantSize from '../constants/ConstansSize'
+import getCurrentTime from '../utils/DateUtil'
+
 @Component
-@Preview
 export default struct WorkTargetContent {
+  @Consume latestUpdateDate: string
+  @Prop totalTasksNumber: number
+  @Prop completedTasksNumber: number
+
   build() {
     RelativeContainer() {
       Image($r("app.media.target"))
@@ -56,7 +61,7 @@ export default struct WorkTargetContent {
         .margin({ left: 10, top: 5 })
         .fontColor($r("app.color.grey_dark"))
         .id("updateTime")
-      Text("03/26/2024 19:59:59")
+      Text(this.latestUpdateDate)
         .alignRules({
           top: { anchor: 'updateTime', align: VerticalAlign.Bottom },
           left: { anchor: 'image', align: HorizontalAlign.Start }
@@ -65,18 +70,32 @@ export default struct WorkTargetContent {
         .fontSize(12)
         .id("time")
 
-      Button({ type: ButtonType.Circle, stateEffect: false }) {
-        Text("0/0")
-          .fontSize(12)
+      Stack() {
+        Row() {
+          Text(this.completedTasksNumber.toString())
+            .fontSize($r('app.float.progress_font'))
+            .fontWeight(500)
+            .fontColor($r('app.color.main_blue'))
+          Text(`/${this.totalTasksNumber}`)
+            .fontSize($r('app.float.progress_font'))
+            .fontWeight(500)
+        }
+
+        Progress({
+          value: this.completedTasksNumber,
+          total: this.totalTasksNumber,
+          type: ProgressType.Ring
+        })
+          .color($r('app.color.main_blue'))
+          .style({ strokeWidth: 2.0 })
+          .width($r('app.float.progress_length'))
+          .height($r('app.float.progress_length'))
       }
+
       .alignRules({
         bottom: { anchor: 'time', align: VerticalAlign.Bottom },
         right: { anchor: '__container__', align: HorizontalAlign.End }
       })
-      .size({ width: 35, height: 35 })
-      .fontColor($r("app.color.grey_dark"))
-      .backgroundColor(Color.White)
-      .border({ width: 2, color: $r("app.color.line_color"), style: BorderStyle.Solid })
       .id("progessBar")
       .margin({ right: 10 })
     }
@@ -84,5 +103,22 @@ export default struct WorkTargetContent {
     .height(190)
     .backgroundColor(Color.White)
     .border({ color: Color.White, style: BorderStyle.Solid, radius: 12 })
+  }
+}
+
+
+@Component
+@Preview
+struct WorkTargetContentPreview {
+  @Provide latestUpdateDate: string = getCurrentTime()
+  @State totalTasksNumber: number = 3
+  @State completedTasksNumber: number = 2
+
+  build() {
+    WorkTargetContent({
+      totalTasksNumber: this.totalTasksNumber,
+      completedTasksNumber: this.completedTasksNumber,
+    }
+    )
   }
 }
