@@ -16,7 +16,6 @@ export class TaskRepository {
 
   public addTask(task: SubTargetModel) {
     this.tasks.push(task)
-    console.log(`${this.tasks}`)
   }
 
   public updateTask(index: number, task: SubTargetModel) {
@@ -25,5 +24,9 @@ export class TaskRepository {
       return
     }
     this.tasks[index] = task
+  }
+
+  public deleteTask(index: number) {
+    this.tasks.slice(index, 1)
   }
 }

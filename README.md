@@ -29,7 +29,31 @@ struct WorkTarget
   或者: Array<SubTargetModel> task = []
   正例:
   SubTargetModelArray task = new SubTargetModelArray()
+  ``` 
+- 为什么传入子组件的值不能多层嵌套,比如:
   ```
+  @State isHasSelected: boolean = false
+  
+  aboutToAppear() {
+    this.tasks = this.viewModel.getData()
+    this.isHasSelected = this.viewModel.selectedMode.hasSelect
+  }
+  
+  FooterButtonArea({
+        isHasSelected: this.isHasSelected,
+        ...
+      })
+  
+  此处传给FooterButtonArea的isHasSelected值, 当this.viewModel.selectedMode.hasSelect值改变时,并不会引起子组件的刷新.
+  但如果传入的是selectedMode就可以:
+  FooterButtonArea({
+        selectedMode: this.viewModel.selectedMode,
+        ...
+      })
+  
+  如此已经造成selectedMode滥用, ui与业务耦合了
+  ```
+  
 
 ## 关于装饰器的几个疑问 
 - @Preview

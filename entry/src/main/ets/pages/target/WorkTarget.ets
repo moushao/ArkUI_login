@@ -7,6 +7,7 @@ import WorkTargetContent from '../../view/WorkTargeContent'
 import { SubTargetModel, SubTargetModelArray } from '../../model/SubTargetModel'
 import { ViewModel } from '../../viewmodel/ViewModel'
 import ConstantCommon from '../../constants/ConstansCommon'
+import SubTargetTitle from '../../view/SubTargetTitle'
 
 @Component
 @Preview
@@ -15,13 +16,14 @@ struct WorkTarget {
   @State clickIndex: number = ConstantCommon.DEFAULT_CLICKED_INDEX
   @State viewModel: ViewModel = new ViewModel()
   @State tasks: SubTargetModelArray = null
+  @Provide isEditMode: boolean = false
+  @State isHasSelected:boolean = false
   dialogController: CustomDialogController = new CustomDialogController({
     builder: TaskAddDialog({
       cancel: (): void => {
         console.info('Callback when the first button is clicked')
       },
       confirm: (taskName: string): void => {
-        console.info(`add sub task ${taskName}`)
         this.viewModel.addTask(taskName)
       }
     }),
@@ -31,6 +33,7 @@ struct WorkTarget {
 
   aboutToAppear() {
     this.tasks = this.viewModel.getData()
+    this.isHasSelected = this.viewModel.selectedMode.hasSelect
   }
 
   build() {
@@ -45,7 +48,11 @@ struct WorkTarget {
         }
 
         ListItem() {
-          Text($r("app.string.work_target_sub")).TargetTitleStyle(22).margin({ top: 10 })
+          SubTargetTitle({
+            clickIndex: $clickIndex,
+            selectedMode: this.viewModel.selectedMode,
+            isShowEditModel: this.tasks.length !== 0
+          })
         }
 
         ForEach(this.tasks, (item: SubTargetModel, index: number | undefined) => {
@@ -54,6 +61,7 @@ struct WorkTarget {
               target: item,
               index: index,
               clickIndex: $clickIndex,
+              selectedMode: this.viewModel.selectedMode
             })
           }
         })
@@ -63,8 +71,12 @@ struct WorkTarget {
       .layoutWeight(1)
 
       FooterButtonArea({
+        selectedMode: this.viewModel.selectedMode,
         onAddClick: (): void => {
           this.dialogController.open()
+        },
+        onDeleteClick: (): void => {
+          this.viewModel.deleteTask()
         }
       })
     }
